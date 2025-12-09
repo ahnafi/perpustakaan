@@ -33,9 +33,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if (mysqli_num_rows($check_result) > 0) {
             $error = 'Email sudah terdaftar!';
         } else {
-            // Hash password and insert user
-            $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-            $query = "INSERT INTO user (name, email, password, role) VALUES ('$name', '$email', '$hashed_password', 'user')";
+            // Insert user with plain password
+            $query = "INSERT INTO user (name, email, password, role) VALUES ('$name', '$email', '$password', 'user')";
 
             if (mysqli_query($conn, $query)) {
                 $success = 'Registrasi berhasil! Silakan login.';
@@ -68,13 +67,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div class="auth-body">
                 <?php if ($error): ?>
                     <div class="alert alert-danger alert-custom mb-4">
-                        <i class="fas fa-exclamation-circle me-2"></i><?= htmlspecialchars($error) ?>
+                        <i class="fas fa-exclamation-circle me-2"></i><?= $error ?>
                     </div>
                 <?php endif; ?>
 
                 <?php if ($success): ?>
                     <div class="alert alert-success alert-custom mb-4">
-                        <i class="fas fa-check-circle me-2"></i><?= htmlspecialchars($success) ?>
+                        <i class="fas fa-check-circle me-2"></i><?= $success ?>
                         <a href="login.php" class="alert-link ms-2">Login sekarang</a>
                     </div>
                 <?php endif; ?>
@@ -87,8 +86,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 <i class="fas fa-user text-muted"></i>
                             </span>
                             <input type="text" name="name" class="form-control border-start-0 ps-0"
-                                placeholder="Masukkan nama lengkap" required
-                                value="<?= htmlspecialchars($_POST['name'] ?? '') ?>">
+                                placeholder="Masukkan nama lengkap" required value="<?= ($_POST['name'] ?? '') ?>">
                         </div>
                     </div>
 
@@ -99,8 +97,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 <i class="fas fa-envelope text-muted"></i>
                             </span>
                             <input type="email" name="email" class="form-control border-start-0 ps-0"
-                                placeholder="nama@email.com" required
-                                value="<?= htmlspecialchars($_POST['email'] ?? '') ?>">
+                                placeholder="nama@email.com" required value="<?= ($_POST['email'] ?? '') ?>">
                         </div>
                     </div>
 
@@ -143,6 +140,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </div>
 
     <script src="js/bootstrap.bundle.min.js"></script>
-</body>
-
-</html>
+</body></html>
