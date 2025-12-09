@@ -12,7 +12,8 @@ CREATE TABLE IF NOT EXISTS user (
 
 -- Insert admin with hashed password (password: 'password')
 INSERT INTO user (name, email, password, role) VALUES 
-('Admin', 'admin@example.com', 'password', 'admin');
+('Admin', 'admin@example.com', 'password', 'admin'),
+('budi', 'budi@example.com', 'password', 'user');
 
 CREATE TABLE IF NOT EXISTS category (
     id INT PRIMARY KEY AUTO_INCREMENT,
@@ -57,6 +58,8 @@ CREATE TABLE IF NOT EXISTS borrowing (
     borrow_date DATE NOT NULL,
     due_date DATE NOT NULL,
     return_date DATE DEFAULT NULL,
+    phone VARCHAR(255) NOT NULL,
+    address TEXT NOT NULL,
     status ENUM('borrowed', 'returned', 'overdue') NOT NULL DEFAULT 'borrowed',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES user(id) ON DELETE CASCADE,

@@ -74,6 +74,12 @@ $result = mysqli_query($conn, $query);
                         Kelola Kategori
                     </a>
                 </li>
+                <li>
+                    <a href="list_borrowing.php">
+                        <i class="fas fa-hand-holding"></i>
+                        Kelola Peminjaman
+                    </a>
+                </li>
                 <li class="mt-4">
                     <a href="index.php">
                         <i class="fas fa-home"></i>
@@ -105,7 +111,7 @@ $result = mysqli_query($conn, $query);
                 <div class="alert alert-<?= $flash['type'] === 'success' ? 'success' : 'danger' ?> alert-custom alert-dismissible fade show"
                     role="alert">
                     <i class="fas fa-<?= $flash['type'] === 'success' ? 'check-circle' : 'exclamation-circle' ?> me-2"></i>
-                    <?= htmlspecialchars($flash['message']) ?>
+                    <?= $flash['message'] ?>
                     <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                 </div>
             <?php endif; ?>
@@ -131,7 +137,7 @@ $result = mysqli_query($conn, $query);
                                 <tr>
                                     <td>
                                         <?php if ($book['cover']): ?>
-                                            <img src="uploads/<?= htmlspecialchars($book['cover']) ?>" alt="Cover" class="rounded"
+                                            <img src="uploads/<?= $book['cover'] ?>" alt="Cover" class="rounded"
                                                 style="width: 50px; height: 65px; object-fit: cover;">
                                         <?php else: ?>
                                             <div class="rounded d-flex align-items-center justify-content-center bg-light"
@@ -143,13 +149,13 @@ $result = mysqli_query($conn, $query);
                                     <td>
                                         <span class="fw-semibold"><?= $book['title'] ?></span>
                                     </td>
-                                    <td><?= htmlspecialchars($book['author']) ?></td>
+                                    <td><?= $book['author'] ?></td>
                                     <td>
                                         <span class="badge" style="background: var(--primary-gradient);">
-                                            <?= htmlspecialchars($book['category_name'] ?? 'Umum') ?>
+                                            <?= $book['category_name'] ?? 'Umum' ?>
                                         </span>
                                     </td>
-                                    <td><?= htmlspecialchars($book['publisher']) ?></td>
+                                    <td><?= $book['publisher'] ?></td>
                                     <td><?= $book['year'] ?></td>
                                     <td>
                                         <span class="badge bg-<?= $book['stock'] > 0 ? 'success' : 'danger' ?>">

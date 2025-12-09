@@ -92,6 +92,8 @@ $flash = getFlash();
                     <thead>
                         <tr>
                             <th>Buku</th>
+                            <th>No HP</th>
+                            <th>Alamat</th>
                             <th>Tanggal Pinjam</th>
                             <th>Jatuh Tempo</th>
                             <th>Tanggal Kembali</th>
@@ -119,6 +121,8 @@ $flash = getFlash();
                                             </div>
                                         </div>
                                     </td>
+                                    <td><?= $row['phone'] ?? '-' ?></td>
+                                    <td><?= $row['address'] ?? '-' ?></td>
                                     <td><?= date('d/m/Y', strtotime($row['borrow_date'])) ?></td>
                                     <td><?= date('d/m/Y', strtotime($row['due_date'])) ?></td>
                                     <td><?= $row['return_date'] ? date('d/m/Y', strtotime($row['return_date'])) : '-' ?></td>
@@ -140,7 +144,7 @@ $flash = getFlash();
                             <?php endwhile; ?>
                         <?php else: ?>
                             <tr>
-                                <td colspan="5" class="text-center py-5">
+                                <td colspan="7" class="text-center py-5">
                                     <div class="empty-state">
                                         <div class="empty-icon">
                                             <i class="fas fa-book-reader"></i>

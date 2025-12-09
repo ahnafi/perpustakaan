@@ -125,7 +125,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             <?php if ($error): ?>
                 <div class="alert alert-danger alert-custom mb-4">
-                    <i class="fas fa-exclamation-circle me-2"></i><?= htmlspecialchars($error) ?>
+                    <i class="fas fa-exclamation-circle me-2"></i><?= $error ?>
                 </div>
             <?php endif; ?>
 
@@ -138,7 +138,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                     <label class="form-label fw-semibold">Judul Buku <span class="text-danger">*</span></label>
                                     <input type="text" name="title" class="form-control form-control-lg" 
                                            placeholder="Masukkan judul buku" required
-                                           value="<?= htmlspecialchars($_POST['title'] ?? '') ?>">
+                                           value="<?= $_POST['title'] ?? '' ?>">
                                 </div>
                                 
                                 <div class="row">
@@ -146,13 +146,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                         <label class="form-label fw-semibold">Penulis <span class="text-danger">*</span></label>
                                         <input type="text" name="author" class="form-control" 
                                                placeholder="Nama penulis" required
-                                               value="<?= htmlspecialchars($_POST['author'] ?? '') ?>">
+                                               value="<?= $_POST['author'] ?? '' ?>">
                                     </div>
                                     <div class="col-md-6 mb-4">
                                         <label class="form-label fw-semibold">Penerbit <span class="text-danger">*</span></label>
                                         <input type="text" name="publisher" class="form-control" 
                                                placeholder="Nama penerbit" required
-                                               value="<?= htmlspecialchars($_POST['publisher'] ?? '') ?>">
+                                               value="<?= $_POST['publisher'] ?? '' ?>">
                                     </div>
                                 </div>
                                 
@@ -161,13 +161,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                         <label class="form-label fw-semibold">Tahun <span class="text-danger">*</span></label>
                                         <input type="number" name="year" class="form-control" 
                                                placeholder="Tahun terbit" min="1900" max="<?= date('Y') ?>" required
-                                               value="<?= htmlspecialchars($_POST['year'] ?? '') ?>">
+                                               value="<?= $_POST['year'] ?? '' ?>">
                                     </div>
                                     <div class="col-md-4 mb-4">
                                         <label class="form-label fw-semibold">Stok <span class="text-danger">*</span></label>
                                         <input type="number" name="stock" class="form-control" 
                                                placeholder="Jumlah stok" min="0" required
-                                               value="<?= htmlspecialchars($_POST['stock'] ?? '0') ?>">
+                                               value="<?= $_POST['stock'] ?? '0' ?>">
                                     </div>
                                     <div class="col-md-4 mb-4">
                                         <label class="form-label fw-semibold">Kategori <span class="text-danger">*</span></label>
@@ -179,7 +179,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                             ?>
                                                 <option value="<?= $cat['id'] ?>" 
                                                     <?= (($_POST['category_id'] ?? '') == $cat['id']) ? 'selected' : '' ?>>
-                                                    <?= htmlspecialchars($cat['name']) ?>
+                                                    <?= $cat['name'] ?>
                                                 </option>
                                             <?php endwhile; ?>
                                         </select>

@@ -34,9 +34,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $book_id = (int) ($_POST['book_id'] ?? 0);
     $borrow_date = $_POST['borrow_date'] ?? date('Y-m-d');
     $duration = (int) ($_POST['duration'] ?? 7);
+    $phone = $_POST['phone'] ?? '';
+    $address = $_POST['address'] ?? '';
 
     if ($book_id == 0) {
         $error = 'Pilih buku yang akan dipinjam!';
+    } elseif (empty($phone)) {
+        $error = 'Nomor HP harus diisi!';
+    } elseif (empty($address)) {
+        $error = 'Alamat harus diisi!';
     } else {
         // Check book exists and has stock
         $book_query = "SELECT * FROM book WHERE id = $book_id";
@@ -59,7 +65,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                 mysqli_begin_transaction($conn);
                 try {
-                    $insert_query = "INSERT INTO borrowing (user_id, book_id, borrow_date, due_date, status) VALUES ($user_id, $book_id, '$borrow_date', '$due_date', 'borrowed')";
+                    $insert_query = "INSERT INTO borrowing (user_id, book_id, borrow_date, due_date, phone, address, status) VALUES ($user_id, $book_id, '$borrow_date', '$due_date', '$phone', '$address', 'borrowed')";
                     mysqli_query($conn, $insert_query);
 
                     $update_query = "UPDATE book SET stock = stock - 1 WHERE id = $book_id";
@@ -172,6 +178,21 @@ $flash = getFlash();
                                         </option>
                                     <?php endwhile; ?>
                                 </select>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 mb-4">
+                                    <label class="form-label fw-semibold">Nomor HP <span
+                                            class="text-danger">*</span></label>
+                                    <input type="text" name="phone" class="form-control form-control-lg"
+                                        placeholder="Contoh: 08123456789" required>
+                                </div>
+                                <div class="col-md-6 mb-4">
+                                    <label class="form-label fw-semibold">Alamat <span
+                                            class="text-danger">*</span></label>
+                                    <textarea name="address" class="form-control form-control-lg" rows="1"
+                                        placeholder="Masukkan alamat lengkap" required></textarea>
+                                </div>
                             </div>
 
                             <div class="row">

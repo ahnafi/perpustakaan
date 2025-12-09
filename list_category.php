@@ -74,6 +74,12 @@ $result = mysqli_query($conn, $query);
                         Kelola Kategori
                     </a>
                 </li>
+                <li>
+                    <a href="list_borrowing.php">
+                        <i class="fas fa-hand-holding"></i>
+                        Kelola Peminjaman
+                    </a>
+                </li>
                 <li class="mt-4">
                     <a href="index.php">
                         <i class="fas fa-home"></i>
