@@ -83,6 +83,9 @@ $categories_list_result = mysqli_query($conn, $categories_list_query);
                             <i class="fas fa-user-circle me-1"></i><?= $_SESSION['user_name'] ?>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="change_password.php">
+                                    <i class="fas fa-key me-2"></i>Ubah Password
+                                </a></li>
                             <li><a class="dropdown-item" href="logout.php">
                                     <i class="fas fa-sign-out-alt me-2"></i>Logout
                                 </a></li>

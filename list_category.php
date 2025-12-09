@@ -87,6 +87,12 @@ $result = mysqli_query($conn, $query);
                     </a>
                 </li>
                 <li>
+                    <a href="change_password.php">
+                        <i class="fas fa-key"></i>
+                        Ubah Password
+                    </a>
+                </li>
+                <li>
                     <a href="logout.php">
                         <i class="fas fa-sign-out-alt"></i>
                         Logout
