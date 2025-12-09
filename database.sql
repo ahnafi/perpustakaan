@@ -1,32 +1,50 @@
-create database perpustakaan;
-use perpustakaan;
+CREATE DATABASE IF NOT EXISTS perpustakaan;
+USE perpustakaan;
 
-create table user (
-    id int primary key auto_increment,
-    name varchar(255) not null,
-    email varchar(255) not null,
-    password varchar(255) not null,
-    role enum('admin', 'user') not null,
+CREATE TABLE IF NOT EXISTS user (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    role ENUM('admin', 'user') NOT NULL DEFAULT 'user',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-insert into user (name, email, password, role) values ('admin', 'admin@example.com', 'password', 'admin');
+-- Insert admin with hashed password (password: 'password')
+INSERT INTO user (name, email, password, role) VALUES 
+('Admin', 'admin@example.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'admin');
 
-create table book (
-    id int primary key auto_increment,
-    title varchar(255) not null,
-    author varchar(255) not null,
-    cover varchar(255) not null,
-    publisher varchar(255) not null,
-    year int not null,
-    stock int not null,
+CREATE TABLE IF NOT EXISTS category (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-create table category (
-    id int primary key auto_increment,
-    name varchar(255) not null,
+CREATE TABLE IF NOT EXISTS book (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    title VARCHAR(255) NOT NULL,
+    author VARCHAR(255) NOT NULL,
+    cover VARCHAR(255) DEFAULT NULL,
+    publisher VARCHAR(255) NOT NULL,
+    year INT NOT NULL,
+    stock INT NOT NULL DEFAULT 0,
+    category_id INT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (category_id) REFERENCES category(id) ON DELETE RESTRICT
 );
 
-alter table book add column category_id int not null;
-alter table book add foreign key (category_id) references category(id);
+-- Insert sample categories
+INSERT INTO category (name) VALUES 
+('Fiksi'),
+('Non-Fiksi'),
+('Teknologi'),
+('Sains'),
+('Sejarah');
 
-
+-- Insert sample books
+INSERT INTO book (title, author, cover, publisher, year, stock, category_id) VALUES
+('Laskar Pelangi', 'Andrea Hirata', NULL, 'Bentang Pustaka', 2005, 10, 1),
+('Bumi Manusia', 'Pramoedya Ananta Toer', NULL, 'Hasta Mitra', 1980, 5, 1),
+('Atomic Habits', 'James Clear', NULL, 'Penguin Random House', 2018, 8, 2),
+('Clean Code', 'Robert C. Martin', NULL, 'Prentice Hall', 2008, 3, 3),
+('Sapiens', 'Yuval Noah Harari', NULL, 'Harper', 2011, 6, 5);
