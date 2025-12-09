@@ -7,13 +7,14 @@ if (!isLoggedIn()) {
 }
 
 // Get book ID
-$id = (int) ($_GET['id'] ?? 0);
+// $id = (int) ($_GET['id'] ?? 0);
+$id =  ($_GET['id'] ?? 0);
 if ($id == 0) {
     redirect(isAdmin() ? 'list_book.php' : 'dashboard.php');
 }
 
 // Get book data with category
-$query = "SELECT b.*, c.name as category_name FROM book b LEFT JOIN category c ON b.category_id = c.id WHERE b.id = $id";
+$query = "SELECT b.*, c.name as category_name FROM book b LEFT JOIN category c ON b.category_id = c.id WHERE b.id = '$id'";
 $result = mysqli_query($conn, $query);
 $book = mysqli_fetch_assoc($result);
 

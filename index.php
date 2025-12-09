@@ -92,9 +92,9 @@ $books_result = mysqli_query($conn, $books_query);
                         <?php endif; ?>
                     </div>
                 </div>
-                <div class="col-lg-6 d-none d-lg-block text-center fade-in-up delay-3">
-                    <img src="https://illustrations.popsy.co/violet/student-reading-a-book.svg"
-                        alt="Reading illustration" style="max-width: 100%; height: auto;">
+                    <div class="col-lg-6 d-none d-lg-block text-center fade-in-up delay-3">
+                    <img src="https://images.unsplash.com/photo-1571193161738-deaba9b6cc26?q=80&w=745&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                        alt="Reading illustration" style="max-width: 80%; height: auto;">
                 </div>
             </div>
         </div>
@@ -158,18 +158,18 @@ $books_result = mysqli_query($conn, $books_query);
                         <div class="col-md-6 col-lg-4">
                             <div class="book-card fade-in-up">
                                 <?php if ($book['cover']): ?>
-                                    <img src="uploads/<?= htmlspecialchars($book['cover']) ?>"
-                                        alt="<?= htmlspecialchars($book['title']) ?>" class="book-cover">
+                                    <img src="uploads/<?= $book['cover'] ?>"
+                                        alt="<?= $book['title'] ?>" class="book-cover">
                                 <?php else: ?>
                                     <div class="book-cover d-flex align-items-center justify-content-center">
                                         <i class="fas fa-book fa-4x text-muted"></i>
                                     </div>
                                 <?php endif; ?>
                                 <div class="card-body">
-                                    <span class="book-category"><?= htmlspecialchars($book['category_name'] ?? 'Umum') ?></span>
-                                    <h5 class="book-title mt-2"><?= htmlspecialchars($book['title']) ?></h5>
+                                    <span class="book-category"><?= $book['category_name'] ?? 'Umum' ?></span>
+                                    <h5 class="book-title mt-2"><?= $book['title'] ?></h5>
                                     <p class="book-author">
-                                        <i class="fas fa-user-edit me-1"></i><?= htmlspecialchars($book['author']) ?>
+                                        <i class="fas fa-user-edit me-1"></i><?= $book['author'] ?>
                                     </p>
                                     <div class="d-flex justify-content-between align-items-center">
                                         <small class="text-muted">

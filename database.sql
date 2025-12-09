@@ -12,7 +12,7 @@ CREATE TABLE IF NOT EXISTS user (
 
 -- Insert admin with hashed password (password: 'password')
 INSERT INTO user (name, email, password, role) VALUES 
-('Admin', 'admin@example.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'admin');
+('Admin', 'admin@example.com', 'password', 'admin');
 
 CREATE TABLE IF NOT EXISTS category (
     id INT PRIMARY KEY AUTO_INCREMENT,

@@ -86,7 +86,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 <i class="fas fa-user text-muted"></i>
                             </span>
                             <input type="text" name="name" class="form-control border-start-0 ps-0"
-                                placeholder="Masukkan nama lengkap" required value="<?= ($_POST['name'] ?? '') ?>">
+                                placeholder="Masukkan nama lengkap" required value="<?= $_POST['name'] ?? '' ?>">
                         </div>
                     </div>
 
@@ -97,7 +97,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 <i class="fas fa-envelope text-muted"></i>
                             </span>
                             <input type="email" name="email" class="form-control border-start-0 ps-0"
-                                placeholder="nama@email.com" required value="<?= ($_POST['email'] ?? '') ?>">
+                                placeholder="nama@email.com" required value="<?= $_POST['email'] ?? '' ?>">
                         </div>
                     </div>
 

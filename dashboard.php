@@ -21,7 +21,8 @@ $categories_result = mysqli_query($conn, $categories_query);
 $total_categories = mysqli_fetch_assoc($categories_result)['total'];
 
 // Search and filter
-$search = escape($conn, $_GET['search'] ?? '');
+// $search = escape($conn, $_GET['search'] ?? '');
+$search = $_GET['search'] ?? '';
 $category_filter = (int) ($_GET['category'] ?? 0);
 
 // Build books query with search
