@@ -20,8 +20,22 @@ $categories_query = "SELECT COUNT(*) as total FROM category";
 $categories_result = mysqli_query($conn, $categories_query);
 $total_categories = mysqli_fetch_assoc($categories_result)['total'];
 
-// Get all books with categories
-$books_list_query = "SELECT b.*, c.name as category_name FROM book b LEFT JOIN category c ON b.category_id = c.id ORDER BY b.created_at DESC";
+// Search and filter
+$search = escape($conn, $_GET['search'] ?? '');
+$category_filter = (int) ($_GET['category'] ?? 0);
+
+// Build books query with search
+$books_list_query = "SELECT b.*, c.name as category_name FROM book b LEFT JOIN category c ON b.category_id = c.id WHERE 1=1";
+
+if (!empty($search)) {
+    $books_list_query .= " AND (b.title LIKE '%$search%' OR b.author LIKE '%$search%' OR b.publisher LIKE '%$search%')";
+}
+
+if ($category_filter > 0) {
+    $books_list_query .= " AND b.category_id = $category_filter";
+}
+
+$books_list_query .= " ORDER BY b.created_at DESC";
 $books_list_result = mysqli_query($conn, $books_list_query);
 
 // Get categories for filter
@@ -58,9 +72,14 @@ $categories_list_result = mysqli_query($conn, $categories_list_query);
                             <i class="fas fa-home me-1"></i>Dashboard
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="my_borrowings.php">
+                            <i class="fas fa-book-reader me-1"></i>Peminjaman Saya
+                        </a>
+                    </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
-                            <i class="fas fa-user-circle me-1"></i><?= htmlspecialchars($_SESSION['user_name']) ?>
+                            <i class="fas fa-user-circle me-1"></i><?= $_SESSION['user_name'] ?>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end">
                             <li><a class="dropdown-item" href="logout.php">
@@ -81,7 +100,7 @@ $categories_list_result = mysqli_query($conn, $categories_list_query);
                     <div class="row align-items-center">
                         <div class="col-lg-8">
                             <h2 class="text-white fw-bold mb-2">
-                                Selamat Datang, <?= htmlspecialchars($_SESSION['user_name']) ?>! 👋
+                                Selamat Datang, <?= $_SESSION['user_name'] ?>! 👋
                             </h2>
                             <p class="text-white-50 mb-0">
                                 Jelajahi koleksi buku kami dan temukan bacaan favoritmu
@@ -121,10 +140,52 @@ $categories_list_result = mysqli_query($conn, $categories_list_query);
             </div>
         </div>
 
+        <!-- Search Section -->
+        <div class="card-custom p-4 mb-4">
+            <form method="GET" action="" class="row g-3 align-items-end">
+                <div class="col-md-5">
+                    <label class="form-label fw-semibold">Cari Buku</label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-light">
+                            <i class="fas fa-search text-muted"></i>
+                        </span>
+                        <input type="text" name="search" class="form-control"
+                            placeholder="Judul, penulis, atau penerbit..." value="<?= $search ?>">
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label fw-semibold">Kategori</label>
+                    <select name="category" class="form-select">
+                        <option value="0">Semua Kategori</option>
+                        <?php while ($cat = mysqli_fetch_assoc($categories_list_result)): ?>
+                            <option value="<?= $cat['id'] ?>" <?= $category_filter == $cat['id'] ? 'selected' : '' ?>>
+                                <?= $cat['name'] ?>
+                            </option>
+                        <?php endwhile; ?>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-gradient flex-grow-1">
+                            <i class="fas fa-search me-1"></i>Cari
+                        </button>
+                        <?php if (!empty($search) || $category_filter > 0): ?>
+                            <a href="dashboard.php" class="btn btn-outline-secondary">
+                                <i class="fas fa-times"></i>
+                            </a>
+                        <?php endif; ?>
+                    </div>
+                </div>
+            </form>
+        </div>
+
         <!-- Books Section -->
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h4 class="fw-bold mb-0" style="color: var(--dark-color);">
                 <i class="fas fa-book-open me-2"></i>Koleksi Buku
+                <?php if (!empty($search) || $category_filter > 0): ?>
+                    <small class="text-muted fs-6">(<?= mysqli_num_rows($books_list_result) ?> hasil)</small>
+                <?php endif; ?>
             </h4>
         </div>
 
@@ -134,22 +195,21 @@ $categories_list_result = mysqli_query($conn, $categories_list_query);
                     <div class="col-md-6 col-lg-4">
                         <div class="book-card">
                             <?php if ($book['cover']): ?>
-                                <img src="uploads/<?= htmlspecialchars($book['cover']) ?>"
-                                    alt="<?= htmlspecialchars($book['title']) ?>" class="book-cover">
+                                <img src="uploads/<?= $book['cover'] ?>" alt="<?= $book['title'] ?>" class="book-cover">
                             <?php else: ?>
                                 <div class="book-cover d-flex align-items-center justify-content-center">
                                     <i class="fas fa-book fa-4x text-muted"></i>
                                 </div>
                             <?php endif; ?>
                             <div class="card-body">
-                                <span class="book-category"><?= htmlspecialchars($book['category_name'] ?? 'Umum') ?></span>
-                                <h5 class="book-title mt-2"><?= htmlspecialchars($book['title']) ?></h5>
+                                <span class="book-category"><?= $book['category_name'] ?? 'Umum' ?></span>
+                                <h5 class="book-title mt-2"><?= $book['title'] ?></h5>
                                 <p class="book-author">
-                                    <i class="fas fa-user-edit me-1"></i><?= htmlspecialchars($book['author']) ?>
+                                    <i class="fas fa-user-edit me-1"></i><?= $book['author'] ?>
                                 </p>
                                 <div class="d-flex justify-content-between align-items-center mb-3">
                                     <small class="text-muted">
-                                        <i class="fas fa-building me-1"></i><?= htmlspecialchars($book['publisher']) ?>
+                                        <i class="fas fa-building me-1"></i><?= $book['publisher'] ?>
                                     </small>
                                     <small class="text-muted">
                                         <i class="fas fa-calendar me-1"></i><?= $book['year'] ?>

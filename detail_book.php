@@ -28,7 +28,7 @@ if (!$book) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= htmlspecialchars($book['title']) ?> - Perpustakaan Digital</title>
+    <title><?= $book['title'] ?> - Perpustakaan Digital</title>
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -97,10 +97,15 @@ if (!$book) {
                                         <i class="fas fa-home me-1"></i>Dashboard
                                     </a>
                                 </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="my_borrowings.php">
+                                        <i class="fas fa-book-reader me-1"></i>Peminjaman Saya
+                                    </a>
+                                </li>
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
                                         <i
-                                            class="fas fa-user-circle me-1"></i><?= htmlspecialchars($_SESSION['user_name']) ?>
+                                            class="fas fa-user-circle me-1"></i><?= ($_SESSION['user_name']) ?>
                                     </a>
                                     <ul class="dropdown-menu dropdown-menu-end">
                                         <li><a class="dropdown-item" href="logout.php">
@@ -136,8 +141,8 @@ if (!$book) {
                                 <div class="p-4 h-100 d-flex align-items-center justify-content-center"
                                     style="background: linear-gradient(135deg, #e0e5ec 0%, #f8f9fc 100%);">
                                     <?php if ($book['cover']): ?>
-                                        <img src="uploads/<?= htmlspecialchars($book['cover']) ?>"
-                                            alt="<?= htmlspecialchars($book['title']) ?>" class="img-fluid rounded shadow"
+                                        <img src="uploads/<?= ($book['cover']) ?>"
+                                            alt="<?= ($book['title']) ?>" class="img-fluid rounded shadow"
                                             style="max-height: 400px;">
                                     <?php else: ?>
                                         <div class="text-center py-5">
@@ -150,11 +155,11 @@ if (!$book) {
                             <div class="col-md-8">
                                 <div class="p-5">
                                     <span class="book-category mb-3 d-inline-block">
-                                        <?= htmlspecialchars($book['category_name'] ?? 'Umum') ?>
+                                        <?= ($book['category_name'] ?? 'Umum') ?>
                                     </span>
 
                                     <h1 class="fw-bold mb-3" style="color: var(--dark-color);">
-                                        <?= htmlspecialchars($book['title']) ?>
+                                        <?= ($book['title']) ?>
                                     </h1>
 
                                     <div class="mb-4">
@@ -169,13 +174,13 @@ if (!$book) {
                                             <td class="ps-0" style="width: 150px;">
                                                 <i class="fas fa-user-edit me-2 text-primary"></i>Penulis
                                             </td>
-                                            <td class="fw-semibold"><?= htmlspecialchars($book['author']) ?></td>
+                                            <td class="fw-semibold"><?= ($book['author']) ?></td>
                                         </tr>
                                         <tr>
                                             <td class="ps-0">
                                                 <i class="fas fa-building me-2 text-primary"></i>Penerbit
                                             </td>
-                                            <td class="fw-semibold"><?= htmlspecialchars($book['publisher']) ?></td>
+                                            <td class="fw-semibold"><?= ($book['publisher']) ?></td>
                                         </tr>
                                         <tr>
                                             <td class="ps-0">
@@ -188,7 +193,7 @@ if (!$book) {
                                                 <i class="fas fa-tags me-2 text-primary"></i>Kategori
                                             </td>
                                             <td class="fw-semibold">
-                                                <?= htmlspecialchars($book['category_name'] ?? 'Umum') ?></td>
+                                                <?= ($book['category_name'] ?? 'Umum') ?></td>
                                         </tr>
                                     </table>
 
@@ -208,6 +213,16 @@ if (!$book) {
                                                 onclick="return confirm('Apakah Anda yakin ingin menghapus buku ini?')">
                                                 <i class="fas fa-trash me-2"></i>Hapus
                                             </a>
+                                        <?php else: ?>
+                                            <?php if ($book['stock'] > 0): ?>
+                                                <a href="borrow_book.php?id=<?= $book['id'] ?>" class="btn btn-gradient">
+                                                    <i class="fas fa-hand-holding me-2"></i>Pinjam Buku
+                                                </a>
+                                            <?php else: ?>
+                                                <button class="btn btn-secondary" disabled>
+                                                    <i class="fas fa-times-circle me-2"></i>Stok Habis
+                                                </button>
+                                            <?php endif; ?>
                                         <?php endif; ?>
                                     </div>
                                 </div>

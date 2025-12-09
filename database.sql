@@ -48,3 +48,17 @@ INSERT INTO book (title, author, cover, publisher, year, stock, category_id) VAL
 ('Atomic Habits', 'James Clear', NULL, 'Penguin Random House', 2018, 8, 2),
 ('Clean Code', 'Robert C. Martin', NULL, 'Prentice Hall', 2008, 3, 3),
 ('Sapiens', 'Yuval Noah Harari', NULL, 'Harper', 2011, 6, 5);
+
+-- Borrowing table
+CREATE TABLE IF NOT EXISTS borrowing (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    user_id INT NOT NULL,
+    book_id INT NOT NULL,
+    borrow_date DATE NOT NULL,
+    due_date DATE NOT NULL,
+    return_date DATE DEFAULT NULL,
+    status ENUM('borrowed', 'returned', 'overdue') NOT NULL DEFAULT 'borrowed',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES user(id) ON DELETE CASCADE,
+    FOREIGN KEY (book_id) REFERENCES book(id) ON DELETE CASCADE
+);

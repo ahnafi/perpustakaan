@@ -25,7 +25,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($result && mysqli_num_rows($result) > 0) {
             $user = mysqli_fetch_assoc($result);
 
-            if (password_verify($password, $user['password'])) {
+            var_dump($password);
+            var_dump($user['password']);
+
+            if ($password === $user['password']) {
                 $_SESSION['user_id'] = $user['id'];
                 $_SESSION['user_name'] = $user['name'];
                 $_SESSION['user_email'] = $user['email'];
@@ -67,7 +70,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div class="auth-body">
                 <?php if ($error): ?>
                     <div class="alert alert-danger alert-custom mb-4">
-                        <i class="fas fa-exclamation-circle me-2"></i><?= htmlspecialchars($error) ?>
+                        <i class="fas fa-exclamation-circle me-2"></i><?= ($error) ?>
                     </div>
                 <?php endif; ?>
 
@@ -79,8 +82,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 <i class="fas fa-envelope text-muted"></i>
                             </span>
                             <input type="email" name="email" class="form-control border-start-0 ps-0"
-                                placeholder="nama@email.com" required
-                                value="<?= htmlspecialchars($_POST['email'] ?? '') ?>">
+                                placeholder="nama@email.com" required value="<?= ($_POST['email'] ?? '') ?>">
                         </div>
                     </div>
 
